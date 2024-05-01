@@ -8,18 +8,38 @@ class TodosController < ApplicationController
 
   def create
     @todo = Todo.new(todo_params)
-    @todo.save
-    respond_to do |format|
-      format.html { redirect_to root_path }
-      format.turbo_stream
+    if @todo.save
+      respond_to do |format|
+        format.html { redirect_to todos_path, notice: 'Todo was successfully created.' }
+        format.turbo_stream {
+          render turbo_stream: turbo_stream.update("flash_messages", partial: "layouts/flash")
+        }
+      end
+    else
+      flash.now[:alert] = 'Error creating Todo.'
+      render :index, status: :unprocessable_entity
     end
   end
 
+
   def update
-    @todo.update(todo_params)
-    respond_to do |format|
-      format.html { redirect_to root_path }
-      format.turbo_stream
+    if @todo.update(todo_params)
+      respond_to do |format|
+        format.html { redirect_to todos_path, notice: 'Todo was successfully updated.' }
+        format.turbo_stream {
+          render turbo_stream: [
+            turbo_stream.replace(dom_id(@todo), partial: "todos/todo", locals: { todo: @todo }),
+            turbo_stream.update("flash_messages", partial: "layouts/flash", locals: { notice: 'Todo was successfully updated.' })
+          ]
+        }
+      end
+    else
+      respond_to do |format|
+        format.html { render :index, status: :unprocessable_entity, notice: @todo.errors.full_messages.join(', ')  }
+        format.turbo_stream {
+          render turbo_stream: turbo_stream.update("flash_messages", partial: "layouts/flash", locals: { alert: @todo.errors.full_messages.join(', ') }), status: :unprocessable_entity
+        }
+      end
     end
   end
 

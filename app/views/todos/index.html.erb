@@ -8,13 +8,15 @@
         <!--   Add new TODOs     S-->
         <%= render 'form', todo: Todo.new %>
 
-        <!-- In Progress Todos -->
-        <h1 class="font-bold">In Progress</h1>
-        <%= render 'todos_table', todos: @todos[false] %>
+        <% if @todos.present? %>
+          <!-- In Progress Todos -->
+          <h1 class="font-bold">In Progress</h1>
+          <%= render 'todos_table', todos: @todos[false] %>
 
-        <!-- Completed Todos -->
-        <h1 class="font-bold">Completed</h1>
-        <%= render 'todos_table', todos: @todos[true] %>
+          <!-- Completed Todos -->
+          <h1 class="font-bold">Completed</h1>
+          <%= render 'todos_table', todos: @todos[true] %>
+        <% end %>
       </div>
     </div>
   </div>
