@@ -9,6 +9,7 @@ import "channels"
 import "@hotwired/turbo-rails"
 import { Turbo } from "@hotwired/turbo-rails"
 Turbo.session.drive = false
+import "../stylesheets/application"
 
 Rails.start()
 ActiveStorage.start()

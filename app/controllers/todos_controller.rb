@@ -1,4 +1,7 @@
 class TodosController < ApplicationController
+
+  before_action :set_todo, only: %w[update destroy]
+
   def index
     @todos = Todo.all
   end
@@ -13,7 +16,6 @@ class TodosController < ApplicationController
   end
 
   def update
-    @todo = Todo.find(params[:id])
     @todo.update(todo_params)
     respond_to do |format|
       format.html { redirect_to root_path }
@@ -22,13 +24,16 @@ class TodosController < ApplicationController
   end
 
     def destroy
-      @todo = Todo.find(params[:id])
       @todo.destroy
       redirect_to todos_path, notice: 'Todo was successfully deleted.'
     end
 
 
   private
+
+  def set_todo
+    @todo = Todo.find(params[:id])
+  end
 
   def todo_params
     params.require(:todo).permit(:title, :completed)

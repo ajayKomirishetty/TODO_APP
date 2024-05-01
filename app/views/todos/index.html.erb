@@ -1,4 +1,13 @@
 <%= turbo_frame_tag "todos" do %>
-  <%= render @todos %>
-  <%= render 'form', todo: Todo.new %>
+  <div class="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
+    <div class="container mx-auto px-4">
+      <div class="bg-white rounded-lg shadow-lg p-5 mt-10">
+        <%= render 'intro' %>
+
+        <%= render 'form', todo: Todo.new %>
+
+        <%= render 'todos_table', todos: @todos %>
+      </div>
+    </div>
+  </div>
 <% end %>
