@@ -3,7 +3,7 @@ class TodosController < ApplicationController
   before_action :set_todo, only: %w[update destroy]
 
   def index
-    @todos = Todo.all
+    @todos = Todo.all.group_by(&:completed)
   end
 
   def create
@@ -36,6 +36,6 @@ class TodosController < ApplicationController
   end
 
   def todo_params
-    params.require(:todo).permit(:title, :completed)
+    params.require(:todo).permit(:title, :completed, :description, :time)
   end
 end

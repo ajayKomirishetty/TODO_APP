@@ -1,30 +1,43 @@
-<table class="min-w-full divide-y divide-gray-200">
-  <thead class="bg-gray-50">
-  <tr>
-    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completed</th>
-    <th scope="col" class="relative px-6 py-3">Edit</th>
-    <th scope="col" class="relative px-6 py-3">Delete</th>
-  </tr>
-  </thead>
-  <tbody class="bg-white divide-y divide-gray-200">
-  <% todos.each do |todo| %>
+
+<% if todos.present? %>
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
     <tr>
-      <%= form_with(model: todo, local: true, html: { class: "form-inline" }) do |form| %>
-        <td class="px-6 py-4 whitespace-nowrap">
-          <%= form.text_field :title, class: "form-input rounded-md shadow-sm mt-1 block w-full" %>
-        </td>
-        <td class="px-6 py-4 whitespace-nowrap">
-          <%= form.check_box :completed %>
-        </td>
-        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-          <%= form.submit "Update", class: "text-indigo-600 hover:text-indigo-900" %>
-        </td>
-      <% end %>
-      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-        <%= button_to 'Delete', todo_path(todo), method: :delete, data: { turbo_confirm: 'Are you sure?', turbo_method: :delete }, class: "text-red-600 hover:text-red-900" %>
-      </td>
+      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+      <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completed</th>
+      <th scope="col" class="relative px-6 py-3">Edit</th>
+      <th scope="col" class="relative px-6 py-3">Delete</th>
     </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <% todos.each do |todo| %>
+        <tr>
+          <%= form_with(model: todo, local: true, html: { class: "form-inline" }) do |form| %>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <%= form.text_field :title, class: "form-input rounded-md shadow-sm mt-1 block w-full" %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <%= form.text_area :description, class: "form-input rounded-md shadow-sm mt-1 block w-full", rows: 2 %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <%= form.datetime_local_field :time, class: "form-input rounded-md shadow-sm mt-1 block w-full" %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <%= form.check_box :completed %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <%= form.submit "Update", class: "text-indigo-600 hover:text-indigo-900" %>
+            </td>
+          <% end %>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <%= button_to 'Delete', todo_path(todo), method: :delete, data: { turbo_confirm: 'Are you sure?', turbo_method: :delete }, class: "text-red-600 hover:text-red-900" %>
+          </td>
+        </tr>
+    </tbody>
+  </table>
   <% end %>
-  </tbody>
-</table>
+<% else %>
+  <h5 class="text-xl mb-2">No todos. <a href="#">Add more</a>!</h5>
+<% end %>

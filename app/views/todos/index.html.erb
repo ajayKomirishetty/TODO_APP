@@ -1,12 +1,20 @@
 <%= turbo_frame_tag "todos" do %>
-  <div class="min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
-    <div class="container mx-auto px-4">
-      <div class="bg-white rounded-lg shadow-lg p-5 mt-10">
+  <div class="min-h-screen bg-gradient-to-r">
+    <div class="container mx-auto">
+      <div class="bg-white rounded-lg shadow-lg ">
+        <!--   Introduce users to app     S-->
         <%= render 'intro' %>
 
+        <!--   Add new TODOs     S-->
         <%= render 'form', todo: Todo.new %>
 
-        <%= render 'todos_table', todos: @todos %>
+        <!-- In Progress Todos -->
+        <h1 class="font-bold">In Progress</h1>
+        <%= render 'todos_table', todos: @todos[false] %>
+
+        <!-- Completed Todos -->
+        <h1 class="font-bold">Completed</h1>
+        <%= render 'todos_table', todos: @todos[true] %>
       </div>
     </div>
   </div>
