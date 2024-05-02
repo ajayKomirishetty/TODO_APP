@@ -4,7 +4,7 @@ require 'rails_helper'
 RSpec.describe TodosController, type: :controller do
   describe "GET index" do
     it "assigns all todos grouped by completion status" do
-      completed_todo = FactoryBot.create(:todo, completed: true)
+      completed_todo =  create(:todo, completed: true)
       incomplete_todo = create(:todo, completed: false)
       get :index
       expect(assigns(:todos)).to eq({true => [completed_todo], false => [incomplete_todo]})
@@ -34,7 +34,7 @@ RSpec.describe TodosController, type: :controller do
   end
 
   describe "PUT update" do
-    let(:todo) { FactoryBot.create(:todo) }
+    let(:todo) { create(:todo) }
 
     context "with valid attributes" do
       it "updates the todo and redirects" do
@@ -58,7 +58,7 @@ RSpec.describe TodosController, type: :controller do
   end
 
   describe "DELETE destroy" do
-    let!(:todo) { FactoryBot.create(:todo) }
+    let!(:todo) { create(:todo) }
 
     it "deletes the todo" do
       expect {
